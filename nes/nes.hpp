@@ -95,6 +95,7 @@ namespace NES {
     }
 
     inline Processor() : thread(nullptr) {}
+    virtual inline ~Processor() { if (thread) co_delete(thread); }
   };
 
   #include <nes/system/system.hpp>
