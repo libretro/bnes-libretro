@@ -6,6 +6,8 @@ ifeq ($(platform),osx)
 else ifeq ($(platform),win)
    fpic :=
    TARGET := nes.dll
+   CC = gcc
+   CXX = g++
 else
    fpic := -fPIC
    TARGET := libnes.so

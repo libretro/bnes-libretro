@@ -9,6 +9,13 @@ unsigned snes_library_revision_major() { return 1; }
 unsigned snes_library_revision_minor() { return 3; }
 const char *snes_library_id() { return "bNES v083"; }
 
+static unsigned g_pitch = 2048;
+static snes_environment_t environ_cb;
+void snes_set_environment(snes_environment_t cb)
+{
+   environ_cb = cb;
+}
+
 struct libSNES : Interface
 {
    libSNES()
@@ -60,7 +67,7 @@ struct libSNES : Interface
       for (unsigned y = 0; y < 240; y++)
       {
          const uint16_t *src = data + y * 256;
-         uint16_t *dst = frame + y * 1024;
+         uint16_t *dst = frame + y * (g_pitch / 2);
 
          for (unsigned x = 0; x < 256; x++)
          {
@@ -126,11 +133,22 @@ struct libSNES : Interface
 
 static libSNES libsnes;
 
+
 void snes_init()
 {
    libsnes.initialize(&libsnes);
    libsnes.connect(0, Input::Device::Joypad);
    libsnes.connect(1, Input::Device::Joypad);
+
+   if (environ_cb)
+   {
+      unsigned pitch = 512;
+      if (environ_cb(SNES_ENVIRONMENT_SET_PITCH, &pitch))
+         g_pitch = pitch;
+
+      snes_geometry geom = { 256, 240, 256, 240 };
+      environ_cb(SNES_ENVIRONMENT_SET_GEOMETRY, &geom);
+   }
 }
 
 void snes_term()
