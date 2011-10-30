@@ -60,9 +60,9 @@ libnes_objects := $(patsubst %,obj/%.o,$(objects))
 
 $(TARGET): $(libnes_objects)
 ifeq ($(platform),x)
-	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined
+	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -Wl,--version-script=link.T
 else ifeq ($(platform),win)
-	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -static-libgcc -static-libstdc++
+	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -static-libgcc -static-libstdc++ -Wl,--version-script=link.T
 else
 	$(cpp) -o $@ -dynamiclib $(libnes_objects) -Wl,--no-undefined
 endif
