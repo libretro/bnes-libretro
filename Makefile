@@ -13,29 +13,29 @@ else
    TARGET := libretro.so
 endif
 
-retro := retro
+nes := nes
 
 all: $(TARGET)
 
-retro_objects := retro-interface retro-system retro-scheduler retro-input
-retro_objects += retro-cartridge retro-memory
-retro_objects += retro-cpu retro-apu retro-ppu
-retro_objects += retro-cheat
-retro_objects += libretro
-objects += $(retro_objects) libco
+nes_objects := nes-interface nes-system nes-scheduler nes-input
+nes_objects += nes-cartridge nes-memory
+nes_objects += nes-cpu nes-apu nes-ppu
+nes_objects += nes-cheat
+nes_objects += libnes
+objects += $(nes_objects) libco
 
-obj/retro-interface.o: $(retro)/interface/interface.cpp $(call rwildcard,$(retro)/interface/)
-obj/retro-system.o: $(retro)/system/system.cpp $(call rwildcard,$(retro)/system/)
-obj/retro-scheduler.o: $(retro)/scheduler/scheduler.cpp $(call rwildcard,$(retro)/scheduler/)
-obj/retro-input.o: $(retro)/input/input.cpp $(call rwildcard,$(retro)/input/)
-obj/retro-mapper.o: $(retro)/mapper/mapper.cpp $(call rwildcard,$(retro)/mapper/)
-obj/retro-cartridge.o: $(retro)/cartridge/cartridge.cpp $(call rwildcard,$(retro)/cartridge/)
-obj/retro-memory.o: $(retro)/memory/memory.cpp $(call rwildcard,$(retro)/memory/)
-obj/retro-cpu.o: $(retro)/cpu/cpu.cpp $(call rwildcard,$(retro)/cpu/)
-obj/retro-apu.o: $(retro)/apu/apu.cpp $(call rwildcard,$(retro)/apu/)
-obj/retro-ppu.o: $(retro)/ppu/ppu.cpp $(call rwildcard,$(retro)/ppu/)
-obj/retro-cheat.o: $(retro)/cheat/cheat.cpp $(call rwildcard,$(retro)/cheat/)
-obj/libretro.o: libretro/libretro.cpp $(call rwildcard,libretro/)
+obj/nes-interface.o: $(nes)/interface/interface.cpp $(call rwildcard,$(nes)/interface/)
+obj/nes-system.o: $(nes)/system/system.cpp $(call rwildcard,$(nes)/system/)
+obj/nes-scheduler.o: $(nes)/scheduler/scheduler.cpp $(call rwildcard,$(nes)/scheduler/)
+obj/nes-input.o: $(nes)/input/input.cpp $(call rwildcard,$(nes)/input/)
+obj/nes-mapper.o: $(nes)/mapper/mapper.cpp $(call rwildcard,$(nes)/mapper/)
+obj/nes-cartridge.o: $(nes)/cartridge/cartridge.cpp $(call rwildcard,$(nes)/cartridge/)
+obj/nes-memory.o: $(nes)/memory/memory.cpp $(call rwildcard,$(nes)/memory/)
+obj/nes-cpu.o: $(nes)/cpu/cpu.cpp $(call rwildcard,$(nes)/cpu/)
+obj/nes-apu.o: $(nes)/apu/apu.cpp $(call rwildcard,$(nes)/apu/)
+obj/nes-ppu.o: $(nes)/ppu/ppu.cpp $(call rwildcard,$(nes)/ppu/)
+obj/nes-cheat.o: $(nes)/cheat/cheat.cpp $(call rwildcard,$(nes)/cheat/)
+obj/libnes.o: libretro/libretro.cpp $(call rwildcard,libretro/)
 obj/libco.o: libco/libco.c
 
 c := $(CC) -std=gnu99
@@ -55,19 +55,19 @@ compile = \
 
 %.o: $<; $(call compile)
 
-libretro_objects := $(patsubst %,obj/%.o,$(objects))
+libnes_objects := $(patsubst %,obj/%.o,$(objects))
 
-
-$(TARGET): $(libretro_objects)
+$(TARGET): $(libnes_objects)
 ifeq ($(platform),x)
-	$(cpp) -o $@ -shared $(libretro_objects) -Wl,--no-undefined -Wl,--version-script=link.T
+	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -Wl,--version-script=link.T
 else ifeq ($(platform),win)
-	$(cpp) -o $@ -shared $(libretro_objects) -Wl,--no-undefined -static-libgcc -static-libstdc++ -Wl,--version-script=link.T
+	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -static-libgcc -static-libstdc++ -Wl,--version-script=link.T
 else
-	$(cpp) -o $@ -dynamiclib $(libretro_objects) -Wl,--no-undefined
+	$(cpp) -o $@ -dynamiclib $(libnes_objects) -Wl,--no-undefined
 endif
 
 clean:
-	rm -f $(libretro_objects) $(TARGET)
+	rm -f $(libnes_objects) $(TARGET)
 
 .PHONY: clean all
+
