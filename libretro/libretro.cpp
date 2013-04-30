@@ -125,7 +125,7 @@ void retro_get_system_info(struct retro_system_info *info)
    info->library_version = "v083";
    info->need_fullpath = false;
    info->block_extract = false;
-   info->valid_extensions = "nes|NES";
+   info->valid_extensions = "nes";
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
