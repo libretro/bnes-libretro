@@ -5,7 +5,7 @@ ifeq ($(platform),osx)
    TARGET := libretro.dylib
 else ifeq ($(platform),win)
    fpic :=
-   TARGET := retro.dll
+   TARGET := libretro.dll
    CC = gcc
    CXX = g++
 else
