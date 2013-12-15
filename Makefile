@@ -3,6 +3,9 @@ include nall/Makefile
 ifeq ($(platform),osx)
    fpic := -fPIC
    TARGET := libretro.dylib
+else ifeq ($(platform),ios)
+   fpic := -fPIC
+   TARGET := libretro.dylib
 else ifeq ($(platform),win)
    fpic :=
    TARGET := libretro.dll
@@ -11,6 +14,10 @@ else ifeq ($(platform),win)
 else
    fpic := -fPIC
    TARGET := libretro.so
+endif
+
+ifneq ($(compiler),)
+   CXX = $(compiler)
 endif
 
 nes := nes
