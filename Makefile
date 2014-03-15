@@ -16,10 +16,6 @@ else
    TARGET := libretro.so
 endif
 
-ifneq ($(compiler),)
-   CXX = $(compiler)
-endif
-
 nes := nes
 
 all: $(TARGET)
