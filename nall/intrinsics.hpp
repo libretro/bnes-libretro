@@ -43,15 +43,16 @@ struct Intrinsics {
 
 /* Endian detection */
 
-#if defined(__i386__) || defined(__amd64__) || defined(_M_IX86) || defined(_M_AMD64)
+#if defined(__i386__) || defined(__amd64__) || defined(_M_IX86) || defined(_M_AMD64) || (defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
   #define ENDIAN_LSB
   #define ARCH_LSB
   Intrinsics::Endian Intrinsics::endian() { return Intrinsics::Endian::LSB; }
-#elif defined(__powerpc__) || defined(_M_PPC) || defined(__BIG_ENDIAN__)
+#elif defined(__powerpc__) || defined(_M_PPC) || defined(__BIG_ENDIAN__) || (defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
   #define ENDIAN_MSB
   #define ARCH_MSB
   Intrinsics::Endian Intrinsics::endian() { return Intrinsics::Endian::MSB; }
 #else
+  #warning "unable to detect endian"
   #define ENDIAN_UNKNOWN
   #define ARCH_UNKNOWN
   Intrinsics::Endian Intrinsics::endia() { return Intrinsics::Endian::Unknown; }
