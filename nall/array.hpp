@@ -57,10 +57,6 @@ namespace nall {
       for(unsigned n = 0; n < length; n++) operator[](buffersize) = data[n];
     }
 
-    void remove() {
-      if(size > 0) resize(size - 1);  //remove last element only
-    }
-
     void remove(unsigned index, unsigned count = 1) {
       for(unsigned i = index; count + i < buffersize; i++) {
         pool[i] = pool[count + i];
