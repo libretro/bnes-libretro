@@ -4,7 +4,6 @@
 typedef float resample_coeff_t;	// note: sizeof(resample_coeff_t) must be == to a power of 2, and not larger than 16
 typedef float resample_samp_t;
 
-
 // ...but don't comment this single RESAMPLE_SSEREGPARM define out when disabling SSE.
 #define RESAMPLE_SSEREGPARM	
 

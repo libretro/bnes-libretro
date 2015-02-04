@@ -66,7 +66,7 @@ ifeq ($(platform),x)
 else ifeq ($(platform),win)
 	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -static-libgcc -static-libstdc++ -Wl,--version-script=link.T
 else
-	$(cpp) -o $@ -dynamiclib $(libnes_objects) -Wl,--no-undefined
+	$(cpp) -o $@ -dynamiclib $(libnes_objects)
 endif
 
 clean:
