@@ -2,18 +2,18 @@ include nall/Makefile
 
 ifeq ($(platform),osx)
    fpic := -fPIC
-   TARGET := libretro.dylib
+   TARGET := bnes_libretro.dylib
 else ifeq ($(platform),ios)
    fpic := -fPIC
-   TARGET := libretro.dylib
+   TARGET := bnes_libretro_ios.dylib
 else ifeq ($(platform),win)
    fpic :=
-   TARGET := libretro.dll
+   TARGET := bnes_libretro.dll
    CC = gcc
    CXX = g++
 else
    fpic := -fPIC
-   TARGET := libretro.so
+   TARGET := bnes_libretro.so
 endif
 
 nes := nes
