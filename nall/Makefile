@@ -28,9 +28,9 @@ ifeq ($(platform),)
 endif
 
 ifeq ($(platform),win)
-    delete = del /F /Q $(subst /,\,$1)
+  delete = del /F /Q $(subst /,\,$1)
 else
-    delete = rm -f $1
+  delete = rm -f $1
 endif
 
 ifeq ($(compiler),)
