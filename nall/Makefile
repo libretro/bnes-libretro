@@ -6,6 +6,7 @@
 [a-z] = a b c d e f g h i j k l m n o p q r s t u v w x y z
 [0-9] = 0 1 2 3 4 5 6 7 8 9
 [markup] = ` ~ ! @ \# $$ % ^ & * ( ) - _ = + [ { ] } \ | ; : ' " , < . > / ?
+# Some editors need this for proper syntax hightlighting: '
 [all] = $([A-Z]) $([a-z]) $([0-9]) $([markup])
 [space] :=
 [space] +=
@@ -17,18 +18,19 @@
 ifeq ($(platform),)
   uname := $(shell uname -a)
   ifeq ($(uname),)
-    platform := win
-    delete = del $(subst /,\,$1)
   else ifneq ($(findstring Darwin,$(uname)),)
     platform := osx
-    delete = rm -f $1
   else ifneq ($(findstring NT,$(uname)),)
     platform := win
-    delete = del $(subst /,\,$1)
   else
     platform := x
-    delete = rm -f $1
   endif
+endif
+
+ifeq ($(platform),win)
+  delete = del /F /Q $(subst /,\,$1)
+else
+  delete = rm -f $1
 endif
 
 ifeq ($(compiler),)
