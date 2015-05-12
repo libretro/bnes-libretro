@@ -121,7 +121,7 @@ static libRETRO libretro;
 
 void retro_get_system_info(struct retro_system_info *info)
 {
-   info->library_name = "bNES";
+   info->library_name = "bnes";
    info->library_version = "v083";
    info->need_fullpath = false;
    info->block_extract = false;
