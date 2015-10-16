@@ -3,9 +3,22 @@ include nall/Makefile
 ifeq ($(platform),osx)
    fpic := -fPIC
    TARGET := bnes_libretro.dylib
-else ifeq ($(platform),ios)
+else ifneq (,$(findstring ios,$(platform)))
    fpic := -fPIC
    TARGET := bnes_libretro_ios.dylib
+	ifeq ($(IOSSDK),)
+		IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
+	endif
+
+   CC = cc -arch armv7 -isysroot $(IOSSDK)
+   CXX = c++ -arch armv7 -isysroot $(IOSSDK)
+ifeq ($(platform),ios9)
+	CC += -miphoneos-version-min=8.0
+	COMMONFLAGS += -miphoneos-version-min=8.0
+else
+	CC += -miphoneos-version-min=5.0
+	COMMONFLAGS += -miphoneos-version-min=5.0
+endif
 else ifeq ($(platform),win)
    fpic :=
    TARGET := bnes_libretro.dll
