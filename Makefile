@@ -29,6 +29,12 @@ else
    TARGET := bnes_libretro.so
 endif
 
+ifeq ($(DEBUG), 1)
+   opt := -O0 -g
+else
+   opt := -O3 -DNDEBUG
+endif
+
 nes := nes
 
 all: $(TARGET)
@@ -56,7 +62,7 @@ obj/libco.o: libco/libco.c
 
 c := $(CC) -std=gnu99
 cpp := $(CXX) -std=gnu++0x
-flags := -O3 -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
+flags := $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 
 compile = \
   $(strip \
