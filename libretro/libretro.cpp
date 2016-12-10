@@ -122,7 +122,10 @@ static libRETRO libretro;
 void retro_get_system_info(struct retro_system_info *info)
 {
    info->library_name = "bnes";
-   info->library_version = "v083";
+#ifndef GIT_VERSION
+#define GIT_VERSION ""
+#endif
+   info->library_version = "v083" GIT_VERSION;
    info->need_fullpath = false;
    info->block_extract = false;
    info->valid_extensions = "nes";
