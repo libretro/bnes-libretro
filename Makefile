@@ -64,6 +64,11 @@ c := $(CC) -std=gnu99
 cpp := $(CXX) -std=gnu++0x
 flags := $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 
+GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
+ifneq ($(GIT_VERSION)," unknown")
+	flags += -DGIT_VERSION=\"$(GIT_VERSION)\"
+endif
+
 compile = \
   $(strip \
     $(if $(filter %.c,$<), \
