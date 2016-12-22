@@ -23,7 +23,7 @@ ifeq ($(platform),)
   else ifneq ($(findstring NT,$(uname)),)
     platform := win
   else
-    platform := x
+    platform := unix
   endif
 endif
 
