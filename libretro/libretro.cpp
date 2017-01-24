@@ -177,8 +177,11 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code) {}
 // Cartridge load.
 bool retro_load_game(const struct retro_game_info *info)
 {
+   if (!info)
+      return false;
+
    libretro.loadCartridge(info->meta ? nall::string(info->meta) : nall::string(),
-         (const uint8_t*)info->data, info->size);
+      (const uint8_t*)info->data, info->size);
    return libretro.cartridgeLoaded();
 }
 
