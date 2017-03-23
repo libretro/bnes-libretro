@@ -34,7 +34,8 @@ void prg_write(unsigned addr, uint8 data) {
 }
 
 unsigned ciram_addr(unsigned addr) const {
-  switch(mirror) {
+  unsigned mirror_type = mirror;
+  switch(mirror_type) {
   case 0: return ((addr & 0x0400) >> 0) | (addr & 0x03ff);  //vertical mirroring
   case 1: return ((addr & 0x0800) >> 1) | (addr & 0x03ff);  //horizontal mirroring
   }
