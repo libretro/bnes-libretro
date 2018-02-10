@@ -7,6 +7,11 @@
 #include <nall/utility.hpp>
 #include <nall/windows/utf8.hpp>
 
+#if defined(__HAIKU__)
+// in Haiku, stat64 is just a stat
+#define stat64 stat
+#endif
+
 namespace nall {
   inline FILE* fopen_utf8(const string &utf8_filename, const char *mode) {
     #if !defined(_WIN32)
