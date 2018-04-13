@@ -7,8 +7,8 @@
 #include <nall/utility.hpp>
 #include <nall/windows/utf8.hpp>
 
-#if defined(__HAIKU__)
-// in Haiku, stat64 is just a stat
+#if defined(__HAIKU__) || (defined(__ANDROID__) && __ANDROID_API__ < 21)
+// in Haiku, stat64 is just a stat; android api < 21 doesn't define it either
 #define stat64 stat
 #endif
 
