@@ -11,6 +11,10 @@
 #include <string.h>
 #include <stdint.h>
 
+#ifndef __APPLE__
+#include <malloc.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -42,7 +46,7 @@ cothread_t co_create(unsigned int size, void (*entrypoint)(void))
 {
    size = (size + 1023) & ~1023;
    cothread_t handle = 0;
-#if HAVE_POSIX_MEMALIGN >= 1
+#if defined(__APPLE__) || HAVE_POSIX_MEMALIGN >= 1
    if (posix_memalign(&handle, 1024, size + 256) < 0)
       return 0;
 #else
@@ -62,7 +66,8 @@ cothread_t co_create(unsigned int size, void (*entrypoint)(void))
    ptr[5] = 0; /* r9  */
    ptr[6] = 0; /* r10 */
    ptr[7] = 0; /* r11 */
-   ptr[8] = (uintptr_t)ptr + size + 256 - 4; /* r13, stack pointer */
+   /* Align stack to 64-bit */
+   ptr[8] = (uintptr_t)ptr + size + 256 - 8; /* r13, stack pointer */
    ptr[9] = (uintptr_t)entrypoint; /* r15, PC (link register r14 gets saved here). */
    return handle;
 }
