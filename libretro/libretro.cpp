@@ -229,15 +229,19 @@ void *retro_get_memory_data(unsigned id)
 {
    if (id == RETRO_MEMORY_SAVE_RAM)
       return libretro.memoryData(Interface::Memory::RAM);
-   else
-      return nullptr;
+   else if ( id == RETRO_MEMORY_SYSTEM_RAM )
+      return cpu.ram;
+
+   return nullptr;
 }
 
 size_t retro_get_memory_size(unsigned id)
 {
    if (id == RETRO_MEMORY_SAVE_RAM)
       return libretro.memorySize(Interface::Memory::RAM);
-   else
+   else if ( id == RETRO_MEMORY_SYSTEM_RAM )
+      return 0x800;
+
       return 0;
 }
 
