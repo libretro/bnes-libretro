@@ -95,8 +95,8 @@ obj/libnes.o: libretro/libretro.cpp $(call rwildcard,libretro/)
 obj/libco.o: libco/libco.c
 
 c := $(CC) -std=gnu99
-cpp := $(CXX) -std=gnu++0x
-flags := $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
+cpp := $(CXX) #-std=gnu++0x
+flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
@@ -131,6 +131,7 @@ endif
 
 clean:
 	rm -f $(libnes_objects) $(TARGET)
+  rm -f BNES_*
 
 .PHONY: clean all
 
