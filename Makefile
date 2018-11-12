@@ -1,5 +1,7 @@
 include nall/Makefile
 
+TARGET_NAME := BNES
+
 ifeq ($(platform),osx)
    fpic := -fPIC
    TARGET := bnes_libretro.dylib
@@ -29,7 +31,7 @@ endif
 else ifeq ($(platform), classic_armv7_a7)
 	TARGET := $(TARGET_NAME)_libretro.so
 	fpic := -fPIC
-  LDFLAGS += -shared -Wl,--version-script=libretro/link.T -lz
+	LDFLAGS += -shared -Wl,--version-script=link.T
 	flags += -Ofast \
 	-flto=4 -fwhole-program -fuse-linker-plugin \
 	-fdata-sections -ffunction-sections -Wl,--gc-sections \
