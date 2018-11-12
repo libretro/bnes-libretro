@@ -131,7 +131,7 @@ endif
 
 clean:
 	rm -f $(libnes_objects) $(TARGET)
-  rm -f BNES_*
+	rm -f BNES_*
 
 .PHONY: clean all
 
