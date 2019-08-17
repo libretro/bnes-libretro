@@ -119,7 +119,6 @@ compile = \
 libnes_objects := $(patsubst %,obj/%.o,$(objects))
 
 $(TARGET): $(libnes_objects)
-	@echo "** BUILDING $(TARGET) FOR PLATFORM $(platform) **"
 ifeq ($(platform),unix)
 	$(cpp) -o $@ -shared $(libnes_objects) -Wl,--no-undefined -Wl,--version-script=link.T
 else ifeq ($(platform),win)
@@ -127,7 +126,6 @@ else ifeq ($(platform),win)
 else
 	$(cpp) -o $@ -dynamiclib $(libnes_objects) $(LDFLAGS)
 endif
-	@echo "** BUILD SUCCESSFUL! GG NO RE **"
 
 clean:
 	rm -f $(libnes_objects) $(TARGET)
