@@ -11,9 +11,14 @@ else ifneq (,$(findstring ios,$(platform)))
 	ifeq ($(IOSSDK),)
 		IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
 	endif
-
+ifeq ($(platform),ios-arm64)
+   CC = cc -arch arm64 -isysroot $(IOSSDK)
+   CXX = c++ -arch arm64 -isysroot $(IOSSDK)
+   flags += -DIOS -DHAVE_POSIX_MEMALIGN -DDARWIN_USE_64_BIT_INODE
+else
    CC = cc -arch armv7 -isysroot $(IOSSDK)
    CXX = c++ -arch armv7 -isysroot $(IOSSDK)
+endif
 ifeq ($(platform),ios9)
 	CC += -miphoneos-version-min=8.0
 	COMMONFLAGS += -miphoneos-version-min=8.0
@@ -94,9 +99,15 @@ obj/nes-cheat.o: $(nes)/cheat/cheat.cpp $(call rwildcard,$(nes)/cheat/)
 obj/libnes.o: libretro/libretro.cpp $(call rwildcard,libretro/)
 obj/libco.o: libco/libco.c
 
-c := $(CC) -std=gnu99
-cpp := $(CXX) #-std=gnu++0x
-flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
+ifeq ($(platform),ios-arm64)
+   c := $(CC) -Wno-error=implicit-function-declaration -std=gnu99
+   cpp := $(CXX) -std=c++11 -stdlib=libc++ #-std=gnu++0x
+   flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
+else
+   c := $(CC) -std=gnu99
+   cpp := $(CXX) #-std=gnu++0x
+   flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
+endif
 
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
