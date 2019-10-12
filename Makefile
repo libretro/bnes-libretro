@@ -102,12 +102,12 @@ obj/libco.o: libco/libco.c
 ifeq ($(platform),ios-arm64)
    c := $(CC) -Wno-error=implicit-function-declaration -std=gnu99
    cpp := $(CXX) -std=c++11 -stdlib=libc++ #-std=gnu++0x
-   flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 else
    c := $(CC) -std=gnu99
    cpp := $(CXX) #-std=gnu++0x
-   flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 endif
+
+flags += $(opt) -fomit-frame-pointer -fno-tree-vectorize -I. $(fpic)
 
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
